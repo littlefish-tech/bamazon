@@ -73,33 +73,43 @@ function purchaseItems() {
         ])
         .then(function(answer){
             var chosenItem;
+            var inventoryQuantity;
             for(var i = 0; i < results.length; i++){
               if (results[i].item_id === answer.selectItem){
                 chosenItem = results[i];
+                inventoryQuantity = chosenItem.stock_quantity;
+                
+                //console.log("The Item you pick is " + chosenItem)
               }
             }
-            if (chosenItem.stock_quantity > parseInt(answer.numbersBuy)){
-              var updatedQuantity = stock_quantity - parseInt(answer.numbersBuy)
-              connect.query(
+            var buyAmount = parseInt(answer.numbersBuy);
+            //var inventoryQuantity = chosenItem.stock_quantity;
+            if (inventoryQuantity > buyAmount){
+              console.log("Your order has been placed");
+              var updatedQuantity = inventoryQuantity - buyAmount;
+              connection.query(
                 "UPDATE products SET ? WHERE ?",
-                [{
+                [
+                  {
                   stock_quantity: updatedQuantity
-                },{
+                },
+                {
                   item_id: answer.selectItem
                 }
-                ],
+              ],
                 function(error) {
                   if (error) throw err;
-                  console.log("Your order has been placed");
-                  start();
+                  //purchaseItems();
                 }
               );
+              
             } else{
               console.log("We don't have enough stocks");
-          start();
+              //purchaseItems();
             }
         })
       })
+
 }  
         purchaseItems()
         
