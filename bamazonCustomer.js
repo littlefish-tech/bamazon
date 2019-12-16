@@ -80,27 +80,22 @@ function purchaseItems() {
         var inventoryQuantity;
         var buyAmount;
         var updatedQuantity;
-        console.log(totalLength);
-        for (var i = 0; i < totalLength; i++) {
-          //console.log(results);
-          if (results[i].item_id === answer.itemNumber){
-            //console.log(results[i].item_id)
-            chosenItem = results[i];
-          }
+        var buyProduct;
+        //console.log(totalLength);
+        
             //console.log(chosenItem);
-            console.log(chosenItem.stock_quantity);
-            inventoryQuantity = results[i].stock_quantity;
+            chosenItem = results[answer.itemNumber-1];
+            //console.log(chosenItem.stock_quantity);
+            inventoryQuantity = chosenItem.stock_quantity;
             buyAmount = parseInt(answer.numbersBuy);
-            console.log(buyAmount);
+            //console.log(buyAmount);
             updatedQuantity = inventoryQuantity - buyAmount;
-            console.log(updatedQuantity);
+            //console.log(updatedQuantity);
+            buyProduct = chosenItem.product_name;
           
-          //console.log("The Item you pick is " + chosenItem)
-        }
+         
+        
 
-
-        //var buyAmount = parseInt(answer.numbersBuy);
-        //var inventoryQuantity = chosenItem.stock_quantity;
         if (inventoryQuantity > buyAmount) {
           //var updatedQuantity = inventoryQuantity - buyAmount;
           connection.query(
@@ -116,7 +111,7 @@ function purchaseItems() {
             function (error) {
               if (error) throw err;
               //purchaseItems();
-              console.log("Your order has been placed");
+              console.log("Your order " + buyAmount + " " + buyProduct + " has been placed.");
             }
           );
 
