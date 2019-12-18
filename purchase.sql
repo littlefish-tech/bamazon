@@ -44,8 +44,8 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Refrigerator", "Kitchen Appliance", 2150, 10);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("Refrigerator", "Kitchen Appliance", 2150, 10);
+VALUES ("Microwave", "Kitchen Appliance", 99, 70);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("HP Printer", "Office", 2150, 10);
+VALUES ("HP Printer", "Office", 245, 35);
 

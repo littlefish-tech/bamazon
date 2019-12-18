@@ -233,19 +233,23 @@ function addNewProduct(){
      }
    ])
    .then(function(answer){
-    connection.query(
-      "INCERT INTO products SET ?",
+    var query = connection.query(
+      "INCERT INTO products SET ? WHERE ?",
       {
         product_name: answer.productName,
         department_name: answer.productDepartment,
         price: answer.productPrice,
         stock_quantity: answer.productQuantity
       },
-      function(err){
-        if (err) throw err;
+      function(err, results){
         console.log("The new product has been add successfully!");
+      
       }
+      
     )
+   checkInventory()
    })
 }
+
+
 
