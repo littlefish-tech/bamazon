@@ -94,33 +94,94 @@ function viewProducts() {
   })
   checkInventory()
 }
-    function viewLowInventory() {
-      connection.query("SELECT * FROM products", function(err, results) {
-        //console.log(results)
-        var lowStockItem;
-       lowStockItem = results.filter(item => item.stock_quantity < 100 );
-       //console.log(lowStockItem);
+function viewLowInventory() {
+  connection.query("SELECT * FROM products", function (err, results) {
+    //console.log(results)
+    var lowStockItem;
+    lowStockItem = results.filter(item => item.stock_quantity < 100);
+    //console.log(lowStockItem);
 
-       var table = new Table({
-        head: ['item_id', 'product_name', "department_name", "price", "stock_quantity"],
-        colWidths: [10, 20, 25, 10, 10],
-        style: {
-          'padding-left': 1
-          , 'padding-right': 1
-          , head: []
-          , border: []
-        }
-      });
-  
-      // table is an Array, so you can `push`, `unshift`, `splice` and friends
-      for (i = 0; i < lowStockItem.length; i++) {
-        table.push(
-          [lowStockItem[i].item_id, lowStockItem[i].product_name, lowStockItem[i].department_name, lowStockItem[i].price, lowStockItem[i].stock_quantity]
-        );
+    var table = new Table({
+      head: ['item_id', 'product_name', "department_name", "price", "stock_quantity"],
+      colWidths: [10, 20, 25, 10, 10],
+      style: {
+        'padding-left': 1
+        , 'padding-right': 1
+        , head: []
+        , border: []
       }
-      console.log(table.toString());
-        
-      })
-      checkInventory()
+    });
+
+    // table is an Array, so you can `push`, `unshift`, `splice` and friends
+    for (i = 0; i < lowStockItem.length; i++) {
+      table.push(
+        [lowStockItem[i].item_id, lowStockItem[i].product_name, lowStockItem[i].department_name, lowStockItem[i].price, lowStockItem[i].stock_quantity]
+      );
     }
-  
+    console.log(table.toString());
+
+  })
+  checkInventory()
+}
+
+function addInventory(){
+  connection.query("SELECT * FROM products", function (err, results) {
+    if (err) throw err;
+    var totalLength = results.length;
+    //console.log(totalLength);
+    //console.log(results);
+    inquirer
+      .prompt([
+        {
+          name: "itemNumber",
+          type: "input",
+          message: "Please enter the product ID which you would like to add Inventory."
+        },
+        {
+          name: "numbersAdd",
+          type: "input",
+          message: "How many would you like to add?"
+        }
+      ])
+      .then(function (answer){
+        //console.log(results);
+        var chosenItem;
+        var inventoryQuantity;
+        var addQuantity;
+        var updatedQuantity;
+        var buyProduct;
+        //console.log(totalLength);
+
+        //console.log(chosenItem);
+        chosenItem = results[answer.itemNumber - 1];
+        //console.log(chosenItem.stock_quantity);
+        inventoryQuantity = chosenItem.stock_quantity;
+        //console.log(inventoryQuantity)
+        addQuantity = parseInt(answer.numbersAdd);
+        //console.log(buyAmount);
+        updatedQuantity = inventoryQuantity + addQuantity;
+        //console.log(updatedQuantity);
+        addProductName = chosenItem.product_name;
+
+        connection.query(
+          "UPDATE products SET ? WHERE ?",
+          [
+            {
+              stock_quantity: updatedQuantity
+            },
+            {
+              item_id: answer.selectItem
+            }
+          ],
+          function (error) {
+            if (error) throw err;
+            //purchaseItems();
+            console.log("The  product " + buyProduct + " new count has been updated, the updated inventory is " + updatedQuantity + "\n");
+            console.log("*************************************");
+          }
+        );
+        checkInventory()
+      });
+  });
+}
+
