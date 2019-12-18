@@ -66,12 +66,26 @@ function purchaseItems() {
         {
           name: "itemNumber",
           type: "input",
-          message: "Please enter the product ID which you would like to buy."
+          message: "Please enter the product ID which you would like to buy.",
+          validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+          }
         },
         {
           name: "numbersBuy",
           type: "input",
-          message: "How many would you like to buy?"
+          message: "How many would you like to buy?",
+
+          validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+          }
+
         }
       ])      
       .then(function (answer) {

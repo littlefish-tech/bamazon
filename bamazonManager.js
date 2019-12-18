@@ -135,12 +135,24 @@ function addInventory(){
         {
           name: "itemNumber",
           type: "input",
-          message: "Please enter the product ID which you would like to add Inventory."
+          message: "Please enter the product ID which you would like to add Inventory.",
+          validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+          }
         },
         {
           name: "numbersAdd",
           type: "input",
-          message: "How many would you like to add?"
+          message: "How many would you like to add?",
+          validate: function(value) {
+            if (isNaN(value) === false) {
+              return true;
+            }
+            return false;
+          }
         }
       ])
       .then(function (answer){
@@ -183,5 +195,57 @@ function addInventory(){
         checkInventory()
       });
   });
+}
+
+function addNewProduct(){
+  inquirer
+   .prompt([
+  //   {
+  //   name: "productID",
+  //   type: "input",
+  //   message: "Please enter the new product information."
+  //  },
+   {
+     name: "productName",
+     type: "input",
+     message: "Please enter the product name."
+   },
+   {
+     name: "productDepartment",
+     type: "input",
+     message: "Please enter the product Department."
+   },
+   {
+    name: "productPrice",
+    type: "input",
+    message: "Please enter the product Price."
+   },
+     {
+      name: "productQuantity",
+      type: "input",
+      message: "Please enter the product Quantity.",
+      validate: function(value) {
+        if (isNaN(value) === false) {
+          return true;
+        }
+        return false;
+      }
+     }
+   ])
+   .then(function(answer){
+    connection.query(
+      "INCERT INTO products SET ?",
+      {
+        product_name: answer.productName,
+        department_name: answer.productDepartment,
+        price: answer.productPrice,
+        stock_quantity: answer.productQuantity
+      },
+      function(err){
+        if (err) throw err;
+        console.log("The new product has been add successfully!");
+      }
+    )
+   })
 }
 
