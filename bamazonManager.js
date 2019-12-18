@@ -243,6 +243,7 @@ function addNewProduct(){
       },
       function(err, results){
         console.log("The new product has been add successfully!");
+        console.log("*********************************************")
       
       }
       
