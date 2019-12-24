@@ -107,7 +107,8 @@ function purchaseItems() {
             //console.log(updatedQuantity);
             buyProduct = chosenItem.product_name;
           
-         
+         console.log(updatedQuantity);
+         //console.log(chosenItem)
         
 
         if (inventoryQuantity > buyAmount) {
@@ -119,25 +120,32 @@ function purchaseItems() {
                 stock_quantity: updatedQuantity
               },
               {
-                item_id: answer.selectItem
+                item_id: chosenItem.item_id
               }
             ],
             function (error) {
               if (error) throw err;
               //purchaseItems();
-              console.log("Your order " + buyAmount + " " + buyProduct + " has been placed.");
+              console.log("Your order " + buyAmount + " " + buyProduct + " has been placed. \n");
+              console.log("********************************************************************************")
+              
             }
           );
 
         }
         else {
-          console.log("We don't have enough stocks");
+          console.log("We don't have enough stocks \n");
+          console.log("********************************************************************************")
           //purchaseItems();
         }
-
+        
+        readInventory()
+       
 
       });
+      
     })
+
 }
       
         

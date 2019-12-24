@@ -98,7 +98,7 @@ function viewLowInventory() {
   connection.query("SELECT * FROM products", function (err, results) {
     //console.log(results)
     var lowStockItem;
-    lowStockItem = results.filter(item => item.stock_quantity < 100);
+    lowStockItem = results.filter(item => item.stock_quantity < 5);
     //console.log(lowStockItem);
 
     var table = new Table({
@@ -182,7 +182,7 @@ function addInventory(){
               stock_quantity: updatedQuantity
             },
             {
-              item_id: answer.selectItem
+              item_id: chosenItem.item_id
             }
           ],
           function (error) {
@@ -220,28 +220,29 @@ function addNewProduct(){
     type: "input",
     message: "Please enter the product Price."
    },
-     {
-      name: "productQuantity",
-      type: "input",
-      message: "Please enter the product Quantity.",
-      validate: function(value) {
-        if (isNaN(value) === false) {
-          return true;
-        }
-        return false;
+  {
+    name: "productQuantity",
+    type: "input",
+    message: "Please enter the product Quantity.",
+    validate: function (value) {
+      if (isNaN(value) === false) {
+        return true;
       }
-     }
-   ])
+      return false;
+    }
+  }
+  ])
    .then(function(answer){
-    var query = connection.query(
-      "INCERT INTO products SET ? WHERE ?",
+    connection.query(
+      "INSERT INTO products SET ?",
       {
         product_name: answer.productName,
         department_name: answer.productDepartment,
         price: answer.productPrice,
         stock_quantity: answer.productQuantity
       },
-      function(err, results){
+      function(err){
+        if (err) throw err;
         console.log("The new product has been add successfully!");
         console.log("*********************************************")
       
