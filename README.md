@@ -5,7 +5,7 @@
 *Customer order view*
 ![](1.gif)
 
-*Manager view all the stocks and view the stocks with low stocks(item number less than 100)*
+*Manager view all the stocks and view the stocks with low stocks(item number less than 5)*
 ![](2.gif)
 
 *Manager add inventory to the products*
